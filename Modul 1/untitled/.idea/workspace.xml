@@ -5,15 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e53522b-c5a6-42c8-b0b5-7d44dfe0a19a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../CS_Senin_BN_DavidAlexander_2406351592_OOP1/CS_Senin_BN_DavidAlexander_2406351592_OOP1.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../CS_Senin_BN_DavidAlexander_2406351592_OOP1/src/Customer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../CS_Senin_BN_DavidAlexander_2406351592_OOP1/src/Kendaraan.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../CS_Senin_BN_DavidAlexander_2406351592_OOP1/src/VehicleType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CS_Senin_BN_DavidAlexander_2406351592_OOP1/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CS_Senin_BN_DavidAlexander_2406351592_OOP1/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS_Senin_BN_DavidAlexander_2406351592_OOP1/Customer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS_Senin_BN_DavidAlexander_2406351592_OOP1/Kendaraan.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS_Senin_BN_DavidAlexander_2406351592_OOP1/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS_Senin_BN_DavidAlexander_2406351592_OOP1/VehicleType.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +43,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "david",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -100,7 +99,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1756710726037</updated>
-      <workItem from="1756710729110" duration="3531000" />
+      <workItem from="1756710729110" duration="4199000" />
     </task>
     <servers />
   </component>
