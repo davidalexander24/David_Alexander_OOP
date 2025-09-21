@@ -1,43 +1,44 @@
 package Repository;
-import Model.Player;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.UUID;
 
-public class PlayerRepository<Player, UUID> extends BaseRepository {
-    public Optional<Model.Player> findByUsername(String username)
-    {
+import Model.Player;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class PlayerRepository extends BaseRepository<Player, UUID> {
+
+    @Override
+    public void save(Player player) {
+        UUID id = getId(player);
+        dataMap.put(id, player);
+        allData.add(player);
+    }
+
+    @Override
+    public UUID getId(Player entity) {
+        return entity.getPlayerId();
+    }
+
+    public Optional<Player> findByUsername(String username) {
         return allData.stream()
-                .filter(player ->
-                        player.getUsername().equals(username))
+                .filter(player -> player.getUsername().equals(username))
                 .findFirst();
     }
 
-    public Player findTopPlayersByHighScore(int limit) {
-
-    }
-
-    public Player findAllByOrderByTotalCoinsDesc() {
+    public boolean existByUsername(String username) {
         return allData.stream()
-                .compareTo();
+                .anyMatch(player -> player.getUsername().equals(username));
     }
 
-    public Player findAllByOrderByTotalDistanceTravelledDesc() {
+    public List<Player> findTopPlayersByHighScore(int limit) {
         return allData.stream()
-                .compareTo();
+                .sorted((p1, p2) -> Integer.compare(p2.getHighScore(), p1.getHighScore()))
+                .limit(limit)
+                .collect(Collectors.toList());
     }
 
-    @Override void save(Player player) {
-
+    public List<Player> findByHighscoreGreaterThan(int minScore) {
+        return allData.stream()
+                .filter(player -> player.getHighScore() > minScore)
+                .collect(Collectors.toList());
     }
-
-    @Override UUID (Player entity) {
-
-    }
-
-
-
 }
-
-

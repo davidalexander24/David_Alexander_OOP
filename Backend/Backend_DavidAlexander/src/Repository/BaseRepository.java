@@ -1,23 +1,19 @@
 package Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public abstract class BaseRepository<T, ID> {
-    HashMap<ID, T> Map = new HashMap<>();
-    ArrayList<T> List = new ArrayList<>();
-    ArrayList<T> AllData
+    Map<ID, T> dataMap = new HashMap<>();
+    protected List<T> allData = new ArrayList<>();
 
-    public T findById(ID id) {
-        return Map.get(id);
+    public Optional<T> findById(ID id) {
+        return Optional.ofNullable(dataMap.get(id));
     }
 
-    public T findAll() {
-        return List
+    public List<T> findAll() {
+        return new ArrayList<>(allData);
     }
 
     public abstract void save(T entity);
-
     public abstract ID getId(T entity);
-
 }
