@@ -2,89 +2,75 @@ import Model.Player;
 import Model.Score;
 import Repository.PlayerRepository;
 import Repository.ScoreRepository;
-import java.util.UUID;
-
+import Service.PlayerService;
+import Service.ScoreService;
 public class Main {
     public static void main(String[] args) {
-        PlayerRepository playerRepo = new PlayerRepository();
-        ScoreRepository scoreRepo = new ScoreRepository();
+        PlayerRepository playerRepository = new
+                PlayerRepository();
+        ScoreRepository scoreRepository = new ScoreRepository();
+        PlayerService playerService = new
+                PlayerService(playerRepository);
+        ScoreService scoreService = new
+                ScoreService(scoreRepository, playerRepository, playerService);
+        System.out.println("=== CS 4 ===\n");
+        Player player1 = new Player("NanaBanana");
+        Player player2 = new Player("Yingko");
+        Player player3 = new Player("LegdontWork");
+        // TODO: Gunakan playerService untuk menyimpan ketiga
+        pemain di atas
 
-        Player player1 = new Player("gamer123");
-        Player player2 = new Player("gamerLooxmaxxing");
-        Player player3 = new Player("Andi123");
-        Player player4 = new Player("Banananana");
+        System.out.println("Players created\n");
+        // TODO: Tampilkan semua pemain untuk melihat status awal
+        mereka
 
-        // Simpan player
-        playerRepo.save(player1);
-        playerRepo.save(player2);
-        playerRepo.save(player3);
-        playerRepo.save(player4);
+        // TODO: Buat 5 objek Score baru dengan ketentuan berikut
+        dan simpan menggunakan scoreService
+        // Score 1: Untuk player1, score 1500, coins 50, distance
+        3000
+        // Score 2: Untuk player1, score 2000, coins 75, distance
+        5
+        4500
+        // Score 3: Untuk player2, score 1800, coins 60, distance
+        3500
+        // Score 4: Untuk player3, score 1200, coins 40, distance
+        2500
+        // Score 5: Untuk player3, score 2500, coins 90, distance
+        5000
 
-        // Update stats player
-        player1.updateHighScore(1500);
-        player1.addCoins(250);
-        player1.addDistance(5000);
+        System.out.println("Scores created!\n");
+        System.out.println("Player Score:");
+        // TODO: Tampilkan detail semua pemain untuk membuktikan
+        statistiknya ter-update
 
-        player2.updateHighScore(3200);
-        player2.addCoins(750);
-        player2.addDistance(12000);
+        System.out.println("Top 2 players by high score");
+        // TODO: Tampilkan leaderboard top 2 pemain berdasarkan
+        highscore melalui service
 
-        // Update stats untuk player 3 dan 4
-        player3.updateHighScore(2400);
-        player3.addCoins(450);
-        player3.addDistance(6600);
+        System.out.println("All scores for " +
+                player1.getUsername() + ":");
+        // TODO: Tampilkan semua skor milik player1 melalui
+        service
 
-        player4.updateHighScore(3200);
-        player4.addCoins(1110);
-        player4.addDistance(19200);
+        System.out.println("Top 3 scores overall:");
+        // TODO: Tampilkan leaderboard untuk top 3 skor
+        keseluruhan melalui service
+        System.out.println("earching for player 'NanaBanana':");
+        // TODO: Cari pemain dengan username "NanaBanana" melalui
+        service.
+                // Jika ditemukan, tampilkan detailnya. Jika tidak, cetak
+                "Player not found!".
 
-        // Buat dan simpan score
-        Score score1 = new Score(player2.getPlayerId(), 1500, 250, 5000);
-        Score score2 = new Score(player4.getPlayerId(), 3200, 750, 12000);
-        Score score3 = new Score(player1.getPlayerId(), 4000, 400, 32000);
-        Score score4 = new Score(player4.getPlayerId(), 1800, 300, 6000);
-        Score score5 = new Score(player3.getPlayerId(), 2400, 240, 2400);
-        Score score6 = new Score(player2.getPlayerId(), 6200, 320, 5000);
-        Score score7 = new Score(player4.getPlayerId(), 1800, 60, 1200);
-        Score score8 = new Score(player1.getPlayerId(), 2100, 200, 7000);
-        Score score9 = new Score(player1.getPlayerId(), 8000, 720, 6200);
-        Score score10 = new Score(player3.getPlayerId(), 1900, 210, 4200);
 
-        // Simpan score
-        scoreRepo.save(score1);
-        scoreRepo.save(score2);
-        scoreRepo.save(score3);
-        scoreRepo.save(score4);
-        scoreRepo.save(score5);
-        scoreRepo.save(score6);
-        scoreRepo.save(score7);
-        scoreRepo.save(score8);
-        scoreRepo.save(score9);
-        scoreRepo.save(score10);
+                System.out.println("Totals for " + player3.getUsername() +
+                        ":");
+        // TODO: Dapatkan dan cetak total koin dan total jarak
+        milik player3 melalui service.
 
-        System.out.println("=== TESTING CS3 ===");
-
-        System.out.println("Find player by ID:");
-        // Tunjukkan detail Player 3
-        playerRepo.findById(player3.getPlayerId()).ifPresent(Player::showDetail);
-
-        System.out.println("All players:");
-        // Tunjukkan semua player
-        playerRepo.findAll().forEach(Player::showDetail);
-
-        // Urutkan player berdasar highscore
-        System.out.println("Players sorted by highscore:");
-        playerRepo.findTopPlayersByHighScore(10).forEach(Player::showDetail);
-
-        System.out.println("Scores for player1:");
-        // Cari Score Player 1
-        scoreRepo.findByPlayerId(player1.getPlayerId()).forEach(Score::showDetail);
-
-        // Additional tests
-        System.out.println("Top 3 scores:");
-        scoreRepo.findTopScores(3).forEach(Score::showDetail);
-
-        System.out.println("Total coins for player1: " +
-                scoreRepo.getTotalCoinsByPlayerId(player1.getPlayerId()));
+        System.out.println("Recent scores (ordered by creation
+                time):");
+        // TODO: Dapatkan semua skor terurut berdasarkan waktu
+        dibuatnya melalui service, lalu tampilkan detail setiap skor.
+        6
     }
 }

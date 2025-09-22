@@ -1,6 +1,8 @@
 package Repository;
 
 import Model.Player;
+import Model.Score;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,6 +41,18 @@ public class PlayerRepository extends BaseRepository<Player, UUID> {
     public List<Player> findByHighscoreGreaterThan(int minScore) {
         return allData.stream()
                 .filter(player -> player.getHighScore() > minScore)
+                .collect(Collectors.toList());
+    }
+
+    public List<Player> findAllByOrderByCoinsDesc() {
+        return allData.stream()
+                .sorted((s1, s2) -> Integer.compare(s2.getTotalCoins(), s1.getTotalCoins()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Player> findAllByOrderByTotalDistanceTravelledDesc() {
+        return allData.stream()
+                .sorted((s1, s2) -> Integer.compare(s2.getTotalDistance(), s1.getTotalDistance()))
                 .collect(Collectors.toList());
     }
 }
