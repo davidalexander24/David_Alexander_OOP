@@ -20,59 +20,29 @@ public class ScoreController {
     @Autowired
     private ScoreService scoreService;
 
-    @GetMapping
-    public ResponseEntity<List<Score>> getAllScores() {
-        List<Score> Scores = scoreService.getAllScores();
-        return ResponseEntity.ok(Scores);
-    }
-
-    @GetMapping("/{scoreId}")
-    public ResponseEntity<?> getScoreById(@PathVariable UUID scoreId) {
-        Optional <Score> score = scoreService.getScoreById(scoreId);
-        if (score.isPresent()) {
-            return ResponseEntity.ok(score.get());
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Score Not Found");
-        }
-    }
-
-    @GetMapping("/username/{username}")
-    public ResponseEntity<?> getScoreByUsername(@PathVariable Integer scoreID) {
-        Optional <Score> score = scoreService.getScoreById(scoreID);
-        if (score.isPresent()) {
-            return ResponseEntity.ok(score.get());
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Score Not Found");
-        }
-    }
-
-    @GetMapping("/check-username/{username}")
-    public ResponseEntity<?> checkUsername(@PathVariable String username) {
-        boolean exists = scoreService.isUsernameExists(username);
-        return ResponseEntity.ok("{\"exists\": " + exists + "}");
-    }
-
     @PostMapping
     public ResponseEntity<?> createScore(@RequestBody Score score) {
         try {
             Score createdScore = scoreService.createScore(score);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdScore);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("{\"error\": \"" + e.getMessage() + "\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-    @DeleteMapping("/{scoreId}")
-    public ResponseEntity<?> deleteScore(@PathVariable UUID scoreId) {
-        try {
-            scoreService.deleteScore(scoreId);
-            return ResponseEntity.ok("{\"message\": \"Score deleted successfully\"}");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("{\"error\": \"" + e.getMessage() + "\"}");
+    @GetMapping
+    public ResponseEntity<List<Score>> getAllScores() {
+        List<Score> scores = scoreService.getAllScores();
+        return ResponseEntity.ok(scores);
+    }
+
+    @GetMapping("/{scoreId}")
+    public ResponseEntity<?> getScoreById(@PathVariable UUID scoreId) {
+        Optional<Score> score = scoreService.getScoreById(scoreId);
+        if (score.isPresent()) {
+            return ResponseEntity.ok(score.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Score Not Found");
         }
     }
 
@@ -82,54 +52,76 @@ public class ScoreController {
             Score updatedScore = scoreService.updateScore(scoreId, score);
             return ResponseEntity.ok(updatedScore);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("{\"error\": \"" + e.getMessage() + "\"}");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
-    @PutMapping("/username/{username}")
-    public ResponseEntity<?> updateScoreByUsername(@PathVariable String username, @RequestBody Score score) {
+    @DeleteMapping("/{scoreId}")
+    public ResponseEntity<?> deleteScore(@PathVariable UUID scoreId) {
         try {
-            Optional<Score> existingScore = scoreService.getScoreByUsername(username);
-            if (existingScore.isPresent()) {
-                Score updatedScore = scoreService.updateScore(existingScore.get().getScoreId(), score);
-                return ResponseEntity.ok(updatedScore);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("{\"error\": \"Score not found with username: " + username + "\"}");
-            }
+            scoreService.deleteScore(scoreId);
+            return ResponseEntity.ok("Score deleted successfully");
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("{\"error\": \"" + e.getMessage() + "\"}");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
-    @DeleteMapping("/username/{username}")
-    public ResponseEntity<?> deleteScoreByUsername(@PathVariable String username) {
-        try {
-            scoreService.deleteScoreByUsername(username);
-            return ResponseEntity.ok("{\"message\": \"Score deleted successfully\"}");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("{\"error\": \"" + e.getMessage() + "\"}");
-        }
+    @GetMapping("/player/{playerId}")
+    public ResponseEntity<List<Score>> getScoresByPlayerId(@PathVariable UUID playerId) {
+        List<Score> scores = scoreService.getScoresByPlayerId(playerId);
+        return ResponseEntity.ok(scores);
     }
 
-    @GetMapping("/leaderboard/high-score")
-    public ResponseEntity<List<Score>> getLeaderboardByHighScore(@RequestParam(defaultValue = "10") int limit) {
-        List<Score> leaderboard = scoreService.getLeaderboardByHighScore(limit);
+    @GetMapping("/player/{playerId}/ordered")
+    public ResponseEntity<List<Score>> getScoresByPlayerIdOrdered(@PathVariable UUID playerId) {
+        List<Score> scores = scoreService.getScoresByPlayerIdByValue(playerId);
+        return ResponseEntity.ok(scores);
+    }
+
+    @GetMapping("/leaderboard")
+    public ResponseEntity<List<Score>> getLeaderboard(@RequestParam(defaultValue = "10") int limit) {
+        List<Score> leaderboard = scoreService.getLeaderboard(limit);
         return ResponseEntity.ok(leaderboard);
     }
 
-    @GetMapping("/leaderboard/total-coins")
-    public ResponseEntity<List<Score>> getLeaderboardByTotalCoins() {
-        List<Score> Scores = scoreService.getLeaderboardByTotalCoins();
-        return ResponseEntity.ok(Scores);
+    @GetMapping("/player/{playerId}/highest")
+    public ResponseEntity<?> getHighestScoreByPlayerId(@PathVariable UUID playerId) {
+        Optional<Score> highestScore = scoreService.getHighestScoreByPlayerId(playerId);
+        if (highestScore.isPresent()) {
+            return ResponseEntity.ok(highestScore.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No scores found for this player");
+        }
     }
 
-    @GetMapping("/leaderboard/total-distance")
-    public ResponseEntity<List<Score>> getLeaderboardByTotalDistance() {
-        List<Score> Scores = scoreService.getLeaderboardByTotalDistance();
-        return ResponseEntity.ok(Scores);
+    @GetMapping("/above/{minValue}")
+    public ResponseEntity<List<Score>> getScoresAboveValue(@PathVariable Integer minValue) {
+        List<Score> scores = scoreService.getScoresAboveValue(minValue);
+        return ResponseEntity.ok(scores);
     }
+
+    @GetMapping("/recent")
+    public ResponseEntity<List<Score>> getRecentScores() {
+        List<Score> scores = scoreService.getRecentScores();
+        return ResponseEntity.ok(scores);
+    }
+
+    @GetMapping("/player/{playerId}/total-coins")
+    public ResponseEntity<?> getTotalCoinsByPlayerId(@PathVariable UUID playerId) {
+        Integer totalCoins = scoreService.getTotalCoinsByPlayerId(playerId);
+        return ResponseEntity.ok(java.util.Collections.singletonMap("totalCoins", totalCoins));
+    }
+
+    @GetMapping("/player/{playerId}/total-distance")
+    public ResponseEntity<?> getTotalDistanceByPlayerId(@PathVariable UUID playerId) {
+        Integer totalDistance = scoreService.getTotalDistanceByPlayerId(playerId);
+        return ResponseEntity.ok(java.util.Collections.singletonMap("totalDistance", totalDistance));
+    }
+
+    @DeleteMapping("/player/{playerId}")
+    public ResponseEntity<?> deleteScoresByPlayerId(@PathVariable UUID playerId) {
+        scoreService.deleteScoresByPlayerId(playerId);
+        return ResponseEntity.ok("All scores for player deleted successfully");
+    }
+
 }

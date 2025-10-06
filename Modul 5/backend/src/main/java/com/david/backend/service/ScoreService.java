@@ -45,7 +45,7 @@ public class ScoreService {
         return savedScore;
     }
 
-    public Optional<Score> getScoreById(Integer scoreId) {
+    public Optional<Score> getScoreById(UUID scoreId) {
         return scoreRepository.findById(scoreId);
     }
 
@@ -121,6 +121,18 @@ public class ScoreService {
         }
 
         return scoreRepository.save(existingScore);
+    }
+
+    public void deleteScore(UUID scoreId) {
+        if (!scoreRepository.existsById(scoreId)) {
+            throw new RuntimeException("Score not found with ID: " + scoreId);
+        }
+        scoreRepository.deleteById(scoreId);
+    }
+
+    public void deleteScoresByPlayerId(UUID playerId) {
+        List<Score> scores = scoreRepository.findByPlayerId(playerId);
+        scoreRepository.deleteAll(scores);
     }
 
 }
