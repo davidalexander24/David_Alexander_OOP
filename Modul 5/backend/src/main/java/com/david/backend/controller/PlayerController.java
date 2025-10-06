@@ -47,29 +47,77 @@ public class PlayerController {
         }
     }
 
-    @GetMapping
-    public boolean checkUsername(String username) {
-        return playerService.isUsernameExists(username);
+    @GetMapping("/check-username/{username}")
+    public ResponseEntity<?> checkUsername(@PathVariable String username) {
+        boolean exists = playerService.isUsernameExists(username);
+        return ResponseEntity.ok("{\"exists\": " + exists + "}");
     }
 
     @PostMapping
     public ResponseEntity<?> createPlayer(@RequestBody Player player) {
         try {
-            playerService.createPlayer(player);
-            return HttpStatus.CREATED;
-        } catch(Exception e) {
-            return HttpStatus.BAD_REQUEST;
+            Player createdPlayer = playerService.createPlayer(player);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdPlayer);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\": \"" + e.getMessage() + "\"}");
+        }
+    }
+
+    @DeleteMapping("/{playerId}")
+    public ResponseEntity<?> deletePlayer(@PathVariable UUID playerId) {
+        try {
+            playerService.deletePlayer(playerId);
+            return ResponseEntity.ok("{\"message\": \"Player deleted successfully\"}");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\": \"" + e.getMessage() + "\"}");
         }
     }
 
     @PutMapping("/{playerId}")
-    public ResponseEntity<?> createPlayer(@RequestBody Player player) {
+    public ResponseEntity<?> updatePlayer(@PathVariable UUID playerId, @RequestBody Player player) {
         try {
-            playerService.updatePlayer(playerId, player);
-            return HttpStatus.CREATED;
-        } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player Not Found");
+            Player updatedPlayer = playerService.updatePlayer(playerId, player);
+            return ResponseEntity.ok(updatedPlayer);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\": \"" + e.getMessage() + "\"}");
         }
+    }
+
+    @PutMapping("/username/{username}")
+    public ResponseEntity<?> updatePlayerByUsername(@PathVariable String username, @RequestBody Player player) {
+        try {
+            Optional<Player> existingPlayer = playerService.getPlayerByUsername(username);
+            if (existingPlayer.isPresent()) {
+                Player updatedPlayer = playerService.updatePlayer(existingPlayer.get().getPlayerId(), player);
+                return ResponseEntity.ok(updatedPlayer);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("{\"error\": \"Player not found with username: " + username + "\"}");
+            }
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\": \"" + e.getMessage() + "\"}");
+        }
+    }
+
+    @DeleteMapping("/username/{username}")
+    public ResponseEntity<?> deletePlayerByUsername(@PathVariable String username) {
+        try {
+            playerService.deletePlayerByUsername(username);
+            return ResponseEntity.ok("{\"message\": \"Player deleted successfully\"}");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\": \"" + e.getMessage() + "\"}");
+        }
+    }
+
+    @GetMapping("/leaderboard/high-score")
+    public ResponseEntity<List<Player>> getLeaderboardByHighScore(@RequestParam(defaultValue = "10") int limit) {
+        List<Player> leaderboard = playerService.getLeaderboardByHighScore(limit);
+        return ResponseEntity.ok(leaderboard);
     }
 
     @GetMapping("/leaderboard/total-coins")
