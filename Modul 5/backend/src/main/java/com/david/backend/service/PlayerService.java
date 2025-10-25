@@ -79,7 +79,7 @@ public class PlayerService {
     public Player updatePlayerStats(UUID playerId, Integer scoreValue, Integer coinsCollected, Integer distanceTravelled) {
         Player player = playerRepository.findById(playerId)
                 .orElseThrow(() -> new RuntimeException("Player not found with ID: " + playerId));
-        
+
         player.updateHighScore(scoreValue);
 
         // Add coins and distance to totals
