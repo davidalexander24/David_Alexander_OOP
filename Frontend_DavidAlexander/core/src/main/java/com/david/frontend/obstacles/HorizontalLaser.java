@@ -17,7 +17,7 @@ public class HorizontalLaser extends BaseObstacle{
 
     @Override
     protected void updateCollider() {
-        new Rectangle(position.x, position.y, length, WIDTH);
+        collider = new Rectangle(position.x, position.y, length, WIDTH);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class HorizontalLaser extends BaseObstacle{
 
     @Override
     protected float getRenderHeight() {
-        return 0;
+        return WIDTH;
     }
 
     @Override

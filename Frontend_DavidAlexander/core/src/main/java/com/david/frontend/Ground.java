@@ -9,7 +9,7 @@ public class Ground {
 
     private Rectangle collider;
 
-    public void collider() {
+    public Ground() {
         this.collider = new Rectangle(0, 0, Gdx.graphics.getWidth() * 2, (int) GROUND_HEIGHT);
     }
 

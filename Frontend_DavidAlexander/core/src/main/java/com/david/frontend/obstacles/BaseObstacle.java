@@ -29,7 +29,7 @@ public abstract class BaseObstacle {
     }
 
     public boolean isColliding(Rectangle playerCollider) {
-        return active && collider.overlaps(playerCollider);
+        return active && collider != null && collider.overlaps(playerCollider);
     }
 
     public boolean isActive() {
@@ -48,11 +48,11 @@ public abstract class BaseObstacle {
 
     protected abstract float getRenderHeight();
 
-    void setActive(boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
-    void setPosition(float x, float y) {
+    public void setPosition(float x, float y) {
         this.position.set(x, y);
     }
 

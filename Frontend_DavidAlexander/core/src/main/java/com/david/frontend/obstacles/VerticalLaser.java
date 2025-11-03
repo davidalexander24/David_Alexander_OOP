@@ -17,7 +17,7 @@ public class VerticalLaser extends BaseObstacle{
 
     @Override
     protected void updateCollider() {
-        new Rectangle(position.x, position.y, WIDTH, length);
+        collider = new Rectangle(position.x, position.y, WIDTH, length);
     }
 
     @Override
@@ -27,12 +27,11 @@ public class VerticalLaser extends BaseObstacle{
 
     @Override
     protected float getRenderWidth() {
-        return 0;
+        return WIDTH;
     }
 
     @Override
     protected float getRenderHeight() {
-        return 0;
+        return length;
     }
 }
-

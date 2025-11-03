@@ -1,0 +1,52 @@
+package com.david.frontend.factories;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.david.frontend.obstacles.BaseObstacle;
+import com.david.frontend.obstacles.HomingMissile;
+import com.david.frontend.pools.HomingMissilePool;
+
+import java.util.List;
+import java.util.Random;
+
+public class HomingMissileCreator implements ObstacleFactory.ObstacleCreator {
+    private final HomingMissilePool pool = new HomingMissilePool();
+
+    @Override
+    public BaseObstacle create(float groundTopY, float spawnX, float playerHeight, Random rng) {
+        float maxY = Gdx.graphics.getHeight();
+        float randomY = rng.nextFloat() * (maxY - groundTopY) + groundTopY;
+
+        Vector2 position = new Vector2(spawnX, randomY);
+        return pool.obtain(position);
+    }
+
+    @Override
+    public void release(BaseObstacle obstacle) {
+        if (obstacle instanceof HomingMissile) {
+            pool.release((HomingMissile) obstacle);
+        }
+    }
+
+    @Override
+    public void releaseAll() {
+        pool.releaseAll();
+    }
+
+    @Override
+    public List<HomingMissile> getInUse() {
+        return pool.getInUse();
+    }
+
+    @Override
+    public boolean supports(BaseObstacle obstacle) {
+        return obstacle instanceof HomingMissile;
+    }
+
+    @Override
+    public String getName() {
+        return "HomingMissile";
+    }
+}
+
+
