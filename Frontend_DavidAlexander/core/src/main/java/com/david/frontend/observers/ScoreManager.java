@@ -21,7 +21,9 @@ public class ScoreManager implements Subject{
     }
 
     public void notifyObservers(int score) {
-        observers.listIterator(observer.update(score))
+        for (Observer observer : observers) {
+            observer.update(score);
+        }
     }
 
     public void setScore(int newScore) {

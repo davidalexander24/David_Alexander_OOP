@@ -20,8 +20,8 @@ public class ScoreUIObserver implements Observer {
     }
 
     public void render(int score) {
-        batch.draw();
-
+        batch.begin();
+        font.draw(batch, "Score: " + score, 10, 470);
         batch.end();
     }
 

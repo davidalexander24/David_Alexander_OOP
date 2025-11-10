@@ -4,7 +4,7 @@ import com.david.frontend.Player;
 
 public class JetpackCommand implements Command{
     Player player;
-    JetpackCommand(Player player){
+    public JetpackCommand(Player player){
         this.player = player;
     }
 
@@ -14,8 +14,7 @@ public class JetpackCommand implements Command{
             return;
         }
         else {
-            player.fly(0);
+            player.fly(1);
         }
     }
 }
-

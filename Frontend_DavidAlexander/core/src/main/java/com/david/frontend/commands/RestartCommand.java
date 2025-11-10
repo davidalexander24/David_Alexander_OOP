@@ -7,7 +7,7 @@ public class RestartCommand implements Command{
     Player player;
     GameManager gameManager;
 
-    RestartCommand(Player player, GameManager gameManager){
+    public RestartCommand(Player player, GameManager gameManager){
         this.player = player;
         this.gameManager = gameManager;
     }
