@@ -7,13 +7,14 @@ public class HomingMissilePool extends ObjectPool<HomingMissile> {
 
     @Override
     protected HomingMissile createObject() {
-        return new HomingMissile(new Vector2(0, 0));
+        return new HomingMissile(new Vector2());
     }
 
     @Override
-    protected void resetObject(HomingMissile object) {
-        object.setPosition(0, 0);
-        object.setTarget(null);
+    protected void resetObject(HomingMissile missile) {
+        missile.setActive(false);
+        missile.setPosition(0, 0);
+        missile.setTarget(null);
     }
 
     public HomingMissile obtain(Vector2 position) {
@@ -23,5 +24,3 @@ public class HomingMissilePool extends ObjectPool<HomingMissile> {
         return missile;
     }
 }
-
-

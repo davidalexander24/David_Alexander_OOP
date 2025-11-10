@@ -1,14 +1,16 @@
 package com.david.frontend;
 
+import com.david.frontend.observers.ScoreManager;
+
 public class GameManager {
     private static GameManager instance;
 
-    private int score;
+    private ScoreManager score;
     private boolean gameActive;
 
     private GameManager() {
-        this.score = 0;
-        this.gameActive = false;
+        score.setScore(0);
+        gameActive = false;
     }
 
     public static GameManager getInstance() {
@@ -19,18 +21,17 @@ public class GameManager {
     }
 
     public void startGame() {
-        score = 0;
+        score.setScore(0);
         gameActive = true;
         System.out.println("Game Started!");
     }
 
     public void setScore(int newScore) {
         if (gameActive) {
-            score = newScore;
+            score.setScore(newScore);
         }
     }
 
-    public int getScore() {
-        return score;
-    }
+    // Getters
+    public int getScore() { return score.getScore(); }
 }

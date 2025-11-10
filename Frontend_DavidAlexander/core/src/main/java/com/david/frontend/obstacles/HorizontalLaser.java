@@ -4,10 +4,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class HorizontalLaser extends BaseObstacle{
+public class HorizontalLaser extends BaseObstacle {
     public HorizontalLaser(Vector2 startPosition, int length) {
         super(startPosition, length);
-
     }
 
     @Override
@@ -23,11 +22,6 @@ public class HorizontalLaser extends BaseObstacle{
     @Override
     protected void drawShape(ShapeRenderer shapeRenderer) {
         shapeRenderer.rect(position.x, position.y, length, WIDTH);
-    }
-
-    @Override
-    protected float getRenderHeight() {
-        return WIDTH;
     }
 
     @Override
