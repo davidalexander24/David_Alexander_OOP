@@ -16,31 +16,21 @@ public class ObstacleFactory {
     }
 
     /** Weighted creator for probability-based spawning */
-    private static class WeightedCreator {
-        ObstacleCreator creator;
-        int weight;
 
-        WeightedCreator(ObstacleCreator creator, int weight) {
-            this.creator = creator;
-            this.weight = weight;
-        }
-    }
 
-    private final List<WeightedCreator> weightedCreators = new ArrayList<>();
+
+    private final Map<String, ObstacleCreator> creators;
+    private final List<ObstacleCreator> weightedSelection;
     private final Random random = new Random();
-    private int totalWeight = 0;
 
     public ObstacleFactory() {
+        this.weightedSelection = new ArrayList<>();
+        this.creators = new HashMap<>();
         // Register creators with weights for spawn probability
         // Vertical: 40%, Horizontal: 40%, Homing Missile: 20%
         register(new VerticalLaserCreator(), 2);
         register(new HorizontalLaserCreator(), 2);
         register(new HomingMissileCreator(), 1);
-    }
-
-    public void register(ObstacleCreator creator, int weight) {
-        weightedCreators.add(new WeightedCreator(creator, weight));
-        totalWeight += weight;
     }
 
     /** Factory Method using weighted random selection */
