@@ -23,8 +23,14 @@ public class GameOverState implements GameState{
 
     public void render(SpriteBatch batch) {
         batch.begin();
-        font.draw(batch, "GAME OVER", 20, Gdx.graphics.getHeight() - 20);
-        font.draw(batch, "Press SPACE to restart", 20, Gdx.graphics.getHeight() - 60);
+
+        float centerX = Gdx.graphics.getWidth() / 2f;
+        float centerY = Gdx.graphics.getHeight() / 2f;
+
+        font.draw(batch, "GAME OVER", centerX - 50, centerY + 20);
+        font.draw(batch, "Press SPACE to restart", centerX - 80, centerY - 20);
+
+        batch.end();
     }
 
     public void dispose() {
