@@ -6,8 +6,6 @@ import com.david.frontend.observers.Observer;
 import com.david.frontend.observers.ScoreManager;
 import com.david.frontend.services.BackendService;
 
-import java.net.IDN;
-
 public class GameManager {
     private static GameManager instance;
 
@@ -29,18 +27,17 @@ public class GameManager {
             @Override
             public void onSuccess(String response) {
                 try {
-                    new JsonReader().parse(response);
-                    currentPlayerId = response;
+                    com.badlogic.gdx.utils.JsonValue json = new JsonReader().parse(response);
+                    currentPlayerId = json.getString("playerId");
+                    Gdx.app.log("GameManager", "Player ID saved: " + currentPlayerId);
                 } catch (RuntimeException e) {
-                    throw new RuntimeException(e);
+                    Gdx.app.error("GameManager", "Failed to parse response: " + e.getMessage());
                 }
-
-                Gdx.app.log(ID);
             }
 
             @Override
             public void onError(String error) {
-                Gdx.app.error("MyTag", "error");
+                Gdx.app.error("GameManager", "Error registering player: " + error);
             }
         });
     }
@@ -60,16 +57,34 @@ public class GameManager {
     }
 
     public void endGame() {
-        if(currentPlayerId == null) {
-            Gdx.app.error("mYTAG","Cannot submit score...");
+        if (currentPlayerId == null) {
+            Gdx.app.error("GameManager", "Cannot submit score...");
             return;
         }
+        int finalScore = scoreManager.getScore() + (coinsCollected * 10);
+        int distance = scoreManager.getScore();
+        backendService.submitScore(currentPlayerId, finalScore, coinsCollected, distance, new BackendService.RequestCallback() {
+            @Override
+            public void onSuccess(String response) {
+                Gdx.app.log("GameManager", "Score submitted successfully: " + response);
+            }
+
+            @Override
+            public void onError(String error) {
+                Gdx.app.error("GameManager", "Failed to submit score: " + error);
+            }
+        });
     }
 
-    public void setScore(int newScore) {
-    if (gameActive) {
-    scoreManager.setScore(newScore);
+    public void addCoin() {
+        coinsCollected++;
+        Gdx.app.log("GameManager", "COIN COLLECTED! Total: " + coinsCollected);
     }
+
+    public void setScore(int distance) {
+        if (gameActive) {
+            scoreManager.setScore(distance);
+        }
     }
 
     public void addObserver(Observer observer) {
@@ -82,4 +97,8 @@ public class GameManager {
 
     // Getters
     public int getScore() { return scoreManager.getScore(); }
+
+    public int getCoins() {
+        return coinsCollected;
+    }
 }

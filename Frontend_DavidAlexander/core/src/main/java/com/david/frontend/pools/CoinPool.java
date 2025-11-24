@@ -6,19 +6,19 @@ import com.david.frontend.Coin;
 public class CoinPool extends ObjectPool<Coin> {
 
     @Override
-    public void createObject{
-        return new Coin(new Vector2(0,0));
+    protected Coin createObject() {
+        return new Coin(new Vector2(0, 0));
     }
 
     @Override
-    public void resetObject{
-        Coin.setActive(false)
+    protected void resetObject(Coin coin) {
+        coin.setActive(false);
     }
 
-
-    public obtain(float x, float y) {
-        super.obtain();
-        Coin()
-        return Coin;
+    public Coin obtain(float x, float y) {
+        Coin coin = super.obtain();
+        coin.setPosition(x, y);
+        coin.setActive(true);
+        return coin;
     }
 }

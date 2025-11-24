@@ -15,19 +15,39 @@ public class Coin {
     private float bobSpeed;
 
     public Coin(Vector2 startPosition) {
-        this.position = new Vector2();
-        this.collider = new Rectangle();
+        this.position = startPosition;
+        this.collider = new Rectangle(startPosition.x, startPosition.y, radius * 2, radius * 2);
     }
 
     public void update(float delta) {
-        Math.sin(bobSpeed * delta);
+        bobOffset += bobSpeed * delta;
+        collider.setPosition(position.x - radius, position.y - radius);
     }
 
     public void renderShape(ShapeRenderer shapeRenderer) {
-        shapeRenderer.circle(Color.YELLOW);
+        if (!active) return;
+        float drawY = position.y + (float)(Math.sin(bobOffset) * 5f);
+        shapeRenderer.setColor(1f, 1f, 0f, 1f);
+        shapeRenderer.circle(position.x, drawY, radius);
     }
 
     public boolean isColliding(Rectangle playerCollider) {
         return active && collider.overlaps(playerCollider);
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setPosition(float x, float y) {
+        this.position.set(x, y);
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public boolean isOffScreenCamera(float cameraLeft) {
+        return position.x + radius < cameraLeft;
     }
 }

@@ -19,9 +19,10 @@ public class ScoreUIObserver implements Observer {
         System.out.println("Score has been updated");
     }
 
-    public void render(int score) {
+    public void render(int score, int coins) {
         batch.begin();
         font.draw(batch, "Score: " + score, 10, 470);
+        font.draw(batch, "Coins: " + coins, 10, 450);
         batch.end();
     }
 
